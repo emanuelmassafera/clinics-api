@@ -2,11 +2,11 @@ import { faker } from '@faker-js/faker';
 import {
   describe, it, expect, vi,
 } from 'vitest';
-import { Clinic } from '../../../../src/domain/models/clinic';
-import { SearchClinicsController } from '../../../../src/presentation/controllers/clinics/search-clinics-controller';
-import { HttpError } from '../../../../src/presentation/errors/http-errors';
-import throwError from '../../../utils/throw-error';
-import ValidationSpy from '../../../validation/mocks/validation-mock';
+import { Clinic } from '../../../src/domain/models/clinic';
+import { SearchClinicsController } from '../../../src/presentation/controllers/search-clinics-controller';
+import { HttpError } from '../../../src/presentation/errors/http-errors';
+import throwError from '../../utils/throw-error';
+import ValidationSpy from '../../validation/mocks/validation-mock';
 import SearchClinicsSpy from '../mocks/mock-clinic';
 
 const mockRequest = (): SearchClinicsController.Request => ({

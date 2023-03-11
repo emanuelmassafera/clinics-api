@@ -1,8 +1,8 @@
-import { Http } from '../../protocols/http';
-import { Validation } from '../../protocols/validation';
-import { HttpError } from '../../errors/http-errors';
+import { Http } from '../protocols/http';
+import { Validation } from '../protocols/validation';
+import { HttpError } from '../errors/http-errors';
 import { ok } from '../helpers/http-helper';
-import { SearchClinics } from '../../../domain/usecases/search-clinics';
+import { SearchClinics } from '../../domain/usecases/search-clinics';
 
 export class SearchClinicsController implements Http.Controller {
   constructor(

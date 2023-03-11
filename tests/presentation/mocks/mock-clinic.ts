@@ -1,5 +1,5 @@
-import { SearchClinics } from '../../../../src/domain/usecases/search-clinics';
-import { mockClinicModels } from '../../../domain/mocks/mock-clinic';
+import { SearchClinics } from '../../../src/domain/usecases/search-clinics';
+import { mockClinicModels } from '../../domain/mocks/mock-clinic';
 
 export default class SearchClinicsSpy implements SearchClinics {
   params: SearchClinics.Params | undefined;
