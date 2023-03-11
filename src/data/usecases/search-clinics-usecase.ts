@@ -9,20 +9,14 @@ export default class SearchClinicsUseCase implements SearchClinics {
   ) {}
 
   async search(params: SearchClinics.Params): Promise<SearchClinics.Result> {
+    const { category, ...searchClinicsParams } = params;
+
     if (params.category === Clinic.Category.Dental) {
-      const result = await this.searchDentalClinicsRepository.searchClinics({
-        name: params.name,
-        state: params.state,
-        availability: params.availability,
-      });
+      const result = await this.searchDentalClinicsRepository.searchClinics(searchClinicsParams);
       return result;
     }
 
-    const result = await this.searchVetClinicsRepository.searchClinics({
-      name: params.name,
-      state: params.state,
-      availability: params.availability,
-    });
+    const result = await this.searchVetClinicsRepository.searchClinics(searchClinicsParams);
     return result;
   }
 }

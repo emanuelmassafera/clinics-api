@@ -5,13 +5,6 @@ export interface SearchClinicsRepository {
 }
 
 export namespace SearchClinicsRepository {
-  export type Params = {
-    name?: string
-    state?: string
-    availability?: {
-      from: string
-      to: string
-    }
-  };
+  export type Params = Omit<SearchClinics.Params, 'category'>;
   export type Result = SearchClinics.Result;
 }

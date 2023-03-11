@@ -14,6 +14,8 @@ export namespace SearchClinics {
       from: string
       to: string
     }
+    page?: number
+    limit?: number
   };
 
   export type Result = List<Clinic.Model>;
