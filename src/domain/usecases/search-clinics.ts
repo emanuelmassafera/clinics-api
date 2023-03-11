@@ -2,7 +2,7 @@ import { List } from '../models/list';
 import { Clinic } from '../models/clinic';
 
 export interface SearchClinics {
-  searchClinics: (params: SearchClinics.Params) => Promise<SearchClinics.Result>
+  search: (params: SearchClinics.Params) => Promise<SearchClinics.Result>
 }
 
 export namespace SearchClinics {
