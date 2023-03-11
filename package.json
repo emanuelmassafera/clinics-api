@@ -25,6 +25,10 @@
     "url": "https://github.com/emanuelmassafera/clinics-api/issues"
   },
   "homepage": "https://github.com/emanuelmassafera/clinics-api#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "zod": "^3.21.4"
+  },
   "devDependencies": {
     "@types/node": "^18.15.0",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
