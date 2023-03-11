@@ -20,37 +20,85 @@ const mockSearchClinicsParams = (): SearchClinics.Params => ({
 
 type SutTypes = {
   sut: SearchClinicsUseCase
-  searchClinicsRepositorySpy: SearchClinicsRepositorySpy
+  searchDentalClinicsRepositorySpy: SearchClinicsRepositorySpy
+  searchVetClinicsRepositorySpy: SearchClinicsRepositorySpy
 };
 
 const makeSut = (): SutTypes => {
-  const searchClinicsRepositorySpy = new SearchClinicsRepositorySpy();
-  const sut = new SearchClinicsUseCase(searchClinicsRepositorySpy);
+  const searchDentalClinicsRepositorySpy = new SearchClinicsRepositorySpy();
+  const searchVetClinicsRepositorySpy = new SearchClinicsRepositorySpy();
+  const sut = new SearchClinicsUseCase(
+    searchDentalClinicsRepositorySpy,
+    searchVetClinicsRepositorySpy,
+  );
 
   return {
     sut,
-    searchClinicsRepositorySpy,
+    searchDentalClinicsRepositorySpy,
+    searchVetClinicsRepositorySpy,
   };
 };
 
 describe('SearchClinicsUseCase', () => {
-  it('Should call SearchClinicsRepository with correct values', async () => {
-    const { sut, searchClinicsRepositorySpy } = makeSut();
-    const params = mockSearchClinicsParams();
-    await sut.search(params);
-    expect(searchClinicsRepositorySpy.params).toEqual(params);
+  describe('When category is DENTAL', () => {
+    it('Should call SearchDentalClinicsRepository with correct values', async () => {
+      const { sut, searchDentalClinicsRepositorySpy } = makeSut();
+      const params = mockSearchClinicsParams();
+      params.category = Clinic.Category.Dental;
+      await sut.search(params);
+      expect(searchDentalClinicsRepositorySpy.params).toEqual({
+        name: params.name,
+        state: params.state,
+        availability: params.availability,
+      });
+    });
+
+    it('Should throw if SearchDentalClinicsRepository throws', async () => {
+      const { sut, searchDentalClinicsRepositorySpy } = makeSut();
+      vi.spyOn(searchDentalClinicsRepositorySpy, 'searchClinics').mockImplementationOnce(throwError);
+      const params = mockSearchClinicsParams();
+      params.category = Clinic.Category.Dental;
+      const promise = sut.search(params);
+      await expect(promise).rejects.toThrow();
+    });
+
+    it('Should return List<Clinic.Model> on success', async () => {
+      const { sut, searchDentalClinicsRepositorySpy } = makeSut();
+      const params = mockSearchClinicsParams();
+      params.category = Clinic.Category.Dental;
+      const result = await sut.search(params);
+      expect(result).toEqual(searchDentalClinicsRepositorySpy.result);
+    });
   });
 
-  it('Should throw if SearchClinicsRepository throws', async () => {
-    const { sut, searchClinicsRepositorySpy } = makeSut();
-    vi.spyOn(searchClinicsRepositorySpy, 'searchClinics').mockImplementationOnce(throwError);
-    const promise = sut.search(mockSearchClinicsParams());
-    await expect(promise).rejects.toThrow();
-  });
+  describe('When category is VET', () => {
+    it('Should call SearchVetClinicsRepository with correct values', async () => {
+      const { sut, searchVetClinicsRepositorySpy } = makeSut();
+      const params = mockSearchClinicsParams();
+      params.category = Clinic.Category.Vet;
+      await sut.search(params);
+      expect(searchVetClinicsRepositorySpy.params).toEqual({
+        name: params.name,
+        state: params.state,
+        availability: params.availability,
+      });
+    });
 
-  it('Should return List<Clinic.Model> on success', async () => {
-    const { sut, searchClinicsRepositorySpy } = makeSut();
-    const result = await sut.search(mockSearchClinicsParams());
-    expect(result).toEqual(searchClinicsRepositorySpy.result);
+    it('Should throw if SearchVetClinicsRepository throws', async () => {
+      const { sut, searchVetClinicsRepositorySpy } = makeSut();
+      vi.spyOn(searchVetClinicsRepositorySpy, 'searchClinics').mockImplementationOnce(throwError);
+      const params = mockSearchClinicsParams();
+      params.category = Clinic.Category.Vet;
+      const promise = sut.search(params);
+      await expect(promise).rejects.toThrow();
+    });
+
+    it('Should return List<Clinic.Model> on success', async () => {
+      const { sut, searchVetClinicsRepositorySpy } = makeSut();
+      const params = mockSearchClinicsParams();
+      params.category = Clinic.Category.Vet;
+      const result = await sut.search(params);
+      expect(result).toEqual(searchVetClinicsRepositorySpy.result);
+    });
   });
 });

@@ -5,6 +5,13 @@ export interface SearchClinicsRepository {
 }
 
 export namespace SearchClinicsRepository {
-  export type Params = SearchClinics.Params;
+  export type Params = {
+    name?: string
+    state?: string
+    availability?: {
+      from: string
+      to: string
+    }
+  };
   export type Result = SearchClinics.Result;
 }
