@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import clinicsRoutes from '../routes/clinics-routes';
+import clinicsRoutes from '../routes/clinics';
 
 const app = fastify();
 
