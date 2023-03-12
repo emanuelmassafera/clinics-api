@@ -60,9 +60,9 @@ describe('SearchClinicsController', () => {
 
   it('Should return BadRequest if validation return invalid params', async () => {
     const { sut, validationSpy } = makeSut();
-    vi.spyOn(validationSpy, 'validate').mockResolvedValueOnce({
-      badParams: { param: 'error' },
-      formattedRequest: undefined,
+    vi.spyOn(validationSpy, 'validate').mockReturnValueOnce({
+      formattedRequest: { param: 'error' },
+      hasIssues: true,
     });
     const result = await sut.handle(mockRequest());
     expect(result).toBeInstanceOf(HttpError.BadRequest);
@@ -82,12 +82,11 @@ describe('SearchClinicsController', () => {
   it('Should call SearchClinics with correct values', async () => {
     const { sut, searchClinicsSpy, validationSpy } = makeSut();
     const searchClinicsParams = mockSearchClinicsParams();
-    vi.spyOn(validationSpy, 'validate').mockResolvedValueOnce({
-      badParams: undefined,
+    vi.spyOn(validationSpy, 'validate').mockReturnValueOnce({
       formattedRequest: searchClinicsParams,
+      hasIssues: false,
     });
-    const request = mockRequest();
-    await sut.handle(request);
+    await sut.handle(mockRequest());
     expect(searchClinicsSpy.params).toEqual(searchClinicsParams);
   });
 
@@ -100,9 +99,9 @@ describe('SearchClinicsController', () => {
 
   it('Should return ok if request is succeeded', async () => {
     const { sut, searchClinicsSpy, validationSpy } = makeSut();
-    vi.spyOn(validationSpy, 'validate').mockResolvedValueOnce({
-      badParams: undefined,
+    vi.spyOn(validationSpy, 'validate').mockReturnValueOnce({
       formattedRequest: mockSearchClinicsParams(),
+      hasIssues: false,
     });
     const result = await sut.handle(mockRequest());
     expect(result.body).toEqual(searchClinicsSpy.result);
