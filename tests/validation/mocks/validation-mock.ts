@@ -5,7 +5,7 @@ export default class ValidationSpy implements Validation<any, any> {
 
   result: any;
 
-  async validate(input: any): Validation.Result<any, any> {
+  validate(input: any): Validation.Result<any, any> {
     this.input = input;
     return this.result;
   }

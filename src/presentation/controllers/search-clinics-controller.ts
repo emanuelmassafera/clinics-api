@@ -13,8 +13,8 @@ export class SearchClinicsController implements Http.Controller {
   async handle(request: SearchClinicsController.Request):
   Promise<Http.Response<SearchClinicsController.Response>> {
     try {
-      const { formattedRequest, badParams } = await this.validation.validate(request);
-      if (badParams) return new HttpError.BadRequest(badParams);
+      const { formattedRequest, hasIssues } = this.validation.validate(request);
+      if (hasIssues) return new HttpError.BadRequest(formattedRequest);
 
       const result = await this.searchClinics.search(formattedRequest);
 

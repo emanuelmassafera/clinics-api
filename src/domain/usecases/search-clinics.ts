@@ -8,14 +8,14 @@ export interface SearchClinics {
 export namespace SearchClinics {
   export type Params = {
     category: Clinic.Category
-    name?: string
-    state?: string
-    availability?: {
+    name: string | null
+    state: string | null
+    availability: {
       from: string
       to: string
-    }
-    page?: number
-    limit?: number
+    } | null
+    page: number | null
+    limit: number | null
   };
 
   export type Result = List<Clinic.Model>;
