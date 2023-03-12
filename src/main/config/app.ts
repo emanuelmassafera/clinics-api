@@ -1,11 +1,17 @@
-import fastify from 'fastify';
+import fastify, { FastifyInstance } from 'fastify';
 import swaggerPlugin from './swagger';
 import clinicsRoutes from '../routes/clinics';
 
-const app = fastify();
+const createServer = async (): Promise<FastifyInstance> => {
+  const server = fastify();
 
-app.register(clinicsRoutes);
+  server.register(clinicsRoutes);
 
-app.register(swaggerPlugin);
+  server.register(swaggerPlugin);
 
-export default app;
+  await server.ready();
+
+  return server;
+};
+
+export default createServer;

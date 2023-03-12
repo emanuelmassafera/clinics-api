@@ -11,6 +11,10 @@ const swaggerPlugin: FastifyPluginAsync = async (app) => {
         description: 'RESTful API that allows searching across multiple clinic providers',
         version: '1.0.0',
       },
+      tags: [{
+        name: 'Clinics',
+        description: 'Endpoints related to clinics',
+      }],
     },
     hideUntagged: true,
   };
