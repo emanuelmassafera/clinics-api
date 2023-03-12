@@ -5,9 +5,9 @@ import clinicsRoutes from '../routes/clinics';
 const createServer = async (): Promise<FastifyInstance> => {
   const server = fastify();
 
-  server.register(clinicsRoutes);
-
   server.register(swaggerPlugin);
+
+  server.register(clinicsRoutes);
 
   await server.ready();
 

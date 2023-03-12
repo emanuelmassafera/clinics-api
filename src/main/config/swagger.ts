@@ -1,31 +1,24 @@
 import fp from 'fastify-plugin';
 import { FastifyPluginAsync } from 'fastify';
-import fastifySwagger, { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
+import fastifySwagger, { SwaggerOptions } from '@fastify/swagger';
 import fastifySwaggerUi, { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
+import swaggerConfig from '../swagger';
 
 const swaggerPlugin: FastifyPluginAsync = async (app) => {
-  const openApiOptions: FastifyDynamicSwaggerOptions = {
-    openapi: {
-      info: {
-        title: 'Clinics API',
-        description: 'RESTful API that allows searching across multiple clinic providers',
-        version: '1.0.0',
-      },
-      tags: [{
-        name: 'Clinics',
-        description: 'Endpoints related to clinics',
-      }],
+  const swaggerOptions: SwaggerOptions = {
+    mode: 'static',
+    specification: {
+      document: swaggerConfig,
     },
-    hideUntagged: true,
   };
 
-  await app.register(fastifySwagger, openApiOptions);
+  await app.register(fastifySwagger, swaggerOptions);
 
-  const openApiUiOptions: FastifySwaggerUiOptions = {
+  const swaggerUiOptions: FastifySwaggerUiOptions = {
     routePrefix: '/api-docs',
   };
 
-  await app.register(fastifySwaggerUi, openApiUiOptions);
+  await app.register(fastifySwaggerUi, swaggerUiOptions);
 };
 
 export default fp(swaggerPlugin);
