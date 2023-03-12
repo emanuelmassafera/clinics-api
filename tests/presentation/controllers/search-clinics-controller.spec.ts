@@ -3,6 +3,7 @@ import {
   describe, it, expect, vi,
 } from 'vitest';
 import { Clinic } from '../../../src/domain/models/clinic';
+import { SearchClinics } from '../../../src/domain/usecases/search-clinics';
 import { SearchClinicsController } from '../../../src/presentation/controllers/search-clinics-controller';
 import { HttpError } from '../../../src/presentation/errors/http-errors';
 import throwError from '../../utils/throw-error';
@@ -12,11 +13,23 @@ import SearchClinicsSpy from '../mocks/mock-clinic';
 const mockRequest = (): SearchClinicsController.Request => ({
   category: faker.helpers.arrayElement([Clinic.Category.Dental, Clinic.Category.Vet]),
   name: faker.company.name(),
+  state: faker.address.state(),
+  availabilityFrom: faker.helpers.arrayElement(['08:00', '10:00', '12:00']),
+  availabilityTo: faker.helpers.arrayElement(['18:00', '20:00', '22:00']),
+  page: faker.datatype.number().toString(),
+  limit: faker.datatype.number().toString(),
+});
+
+const mockSearchClinicsParams = (): SearchClinics.Params => ({
+  category: faker.helpers.arrayElement([Clinic.Category.Dental, Clinic.Category.Vet]),
+  name: faker.company.name(),
   availability: {
-    from: faker.random.word(),
-    to: faker.random.word(),
+    from: faker.helpers.arrayElement(['08:00', '10:00', '12:00']),
+    to: faker.helpers.arrayElement(['18:00', '20:00', '22:00']),
   },
   state: faker.address.state(),
+  page: faker.datatype.number(),
+  limit: faker.datatype.number(),
 });
 
 type SutTypes = {
@@ -48,7 +61,8 @@ describe('SearchClinicsController', () => {
   it('Should return BadRequest if validation return invalid params', async () => {
     const { sut, validationSpy } = makeSut();
     vi.spyOn(validationSpy, 'validate').mockResolvedValueOnce({
-      param: 'error',
+      badParams: { param: 'error' },
+      formattedRequest: undefined,
     });
     const result = await sut.handle(mockRequest());
     expect(result).toBeInstanceOf(HttpError.BadRequest);
@@ -66,10 +80,15 @@ describe('SearchClinicsController', () => {
   });
 
   it('Should call SearchClinics with correct values', async () => {
-    const { sut, searchClinicsSpy } = makeSut();
+    const { sut, searchClinicsSpy, validationSpy } = makeSut();
+    const searchClinicsParams = mockSearchClinicsParams();
+    vi.spyOn(validationSpy, 'validate').mockResolvedValueOnce({
+      badParams: undefined,
+      formattedRequest: searchClinicsParams,
+    });
     const request = mockRequest();
     await sut.handle(request);
-    expect(searchClinicsSpy.params).toEqual(request);
+    expect(searchClinicsSpy.params).toEqual(searchClinicsParams);
   });
 
   it('Should return ServerError if SearchClinics throws', async () => {
@@ -80,7 +99,11 @@ describe('SearchClinicsController', () => {
   });
 
   it('Should return ok if request is succeeded', async () => {
-    const { sut, searchClinicsSpy } = makeSut();
+    const { sut, searchClinicsSpy, validationSpy } = makeSut();
+    vi.spyOn(validationSpy, 'validate').mockResolvedValueOnce({
+      badParams: undefined,
+      formattedRequest: mockSearchClinicsParams(),
+    });
     const result = await sut.handle(mockRequest());
     expect(result.body).toEqual(searchClinicsSpy.result);
     expect(result.statusCode).toEqual(200);

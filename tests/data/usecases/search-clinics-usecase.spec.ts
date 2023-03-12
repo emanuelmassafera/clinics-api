@@ -12,8 +12,8 @@ const mockSearchClinicsParams = (): SearchClinics.Params => ({
   category: faker.helpers.arrayElement([Clinic.Category.Dental, Clinic.Category.Vet]),
   name: faker.company.name(),
   availability: {
-    from: faker.random.word(),
-    to: faker.random.word(),
+    from: faker.helpers.arrayElement(['08:00', '10:00', '12:00']),
+    to: faker.helpers.arrayElement(['18:00', '20:00', '22:00']),
   },
   state: faker.address.state(),
   page: faker.datatype.number(),

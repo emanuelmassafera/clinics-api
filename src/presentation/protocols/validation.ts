@@ -1,11 +1,14 @@
-export interface Validation<T = any> {
-  validate: (input: T) => Validation.Result<T>
+export interface Validation<T, K> {
+  validate: (input: T) => Validation.Result<T, K>
 }
 
 export namespace Validation {
   export type BadParams<T> = {
     [key in keyof T]?: string | BadParams<T[key]>;
-  };
+  } | undefined;
 
-  export type Result<T> = Promise<void | Validation.BadParams<T>>;
+  export type Result<T, K> = Promise<{
+    formattedRequest: K
+    badParams: Validation.BadParams<T>
+  }>;
 }

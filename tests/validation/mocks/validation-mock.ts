@@ -1,11 +1,11 @@
 import { Validation } from '../../../src/presentation/protocols/validation';
 
-export default class ValidationSpy implements Validation {
+export default class ValidationSpy implements Validation<any, any> {
   input: any;
 
-  result = undefined;
+  result: any;
 
-  async validate(input: any): Validation.Result<any> {
+  async validate(input: any): Validation.Result<any, any> {
     this.input = input;
     return this.result;
   }

@@ -10,6 +10,6 @@
     "no-console": "off",
     "no-restricted-syntax": "off",
     "max-classes-per-file": "off",
-    "no-shadow": "off"
+    "class-methods-use-this": "off"
   }
 }
