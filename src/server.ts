@@ -7,6 +7,20 @@ const vetClinicsRepositoryPath = new URL('../assets/vet-clinics.json', import.me
 
 DatabaseHelper.connect(dentalClinicsRepositoryPath, vetClinicsRepositoryPath).then(() => {
   app.listen({ port: env.PORT }).then(() => {
-    console.log(`Server running at ${env.PORT}`);
+    console.log(`HTTP Server running at ${env.PORT}`);
   });
 });
+
+['unhandledRejection', 'uncaughtException'].forEach(
+  (event) => process.on(event, (e: any) => {
+    console.error(`${event}:`, e.message || event);
+  }),
+);
+
+['SIGINT', 'SIGTERM'].forEach(
+  (event) => process.on(event, async () => {
+    console.log('Closing HTTP Server');
+    await app.close();
+    process.exit(0);
+  }),
+);
