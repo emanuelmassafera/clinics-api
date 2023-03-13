@@ -1,4 +1,4 @@
-import { Validation } from '../../../src/presentation/protocols/validation';
+import { Validation } from '../../../../src/presentation/protocols/validation';
 
 export default class ValidationSpy implements Validation<any, any> {
   input: any;

@@ -7,7 +7,7 @@ import { SearchClinics } from '../../../src/domain/usecases/search-clinics';
 import { SearchClinicsController } from '../../../src/presentation/controllers/search-clinics-controller';
 import { HttpError } from '../../../src/presentation/errors/http-errors';
 import throwError from '../../utils/throw-error';
-import ValidationSpy from '../../validation/mocks/validation-mock';
+import ValidationSpy from '../validations/mocks/validation-mock';
 import SearchClinicsSpy from '../mocks/mock-clinic';
 
 const mockRequest = (): SearchClinicsController.Request => ({
