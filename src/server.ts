@@ -9,7 +9,7 @@ const main = async (): Promise<void> => {
   await DatabaseHelper.connect(dentalClinicsRepositoryPath, vetClinicsRepositoryPath);
 
   const server = await createServer();
-  server.listen({ port: env.PORT }, () => console.log(`HTTP Server running at ${env.PORT}`));
+  server.listen({ host: '0.0.0.0', port: env.PORT }, () => console.log(`HTTP Server running at ${env.PORT}`));
 
   ['unhandledRejection', 'uncaughtException'].forEach(
     (event) => process.on(event, (e: any) => {
