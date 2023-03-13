@@ -12,6 +12,8 @@
     "clean": "rimraf build/",
     "copyfiles": "copyfiles --flat assets/*json build/assets",
     "build": "npm run clean && tsup --target es2020 --format esm src --out-dir build/src && npm run copyfiles",
+    "up": "npm run build && docker-compose up --build -d",
+    "down": "docker-compose down",
     "test": "vitest run --dir tests --silent",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky install"
