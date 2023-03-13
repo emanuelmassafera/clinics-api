@@ -2,7 +2,7 @@ import { SearchClinics } from '../../domain/usecases/search-clinics';
 import { Http } from '../protocols/http';
 import { Validation } from '../protocols/validation';
 import { HttpError } from '../errors/http-errors';
-import { ok } from '../helpers/http-helper';
+import ok from '../helpers/http-helper';
 
 export class SearchClinicsController implements Http.Controller {
   constructor(
