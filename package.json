@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "RESTful API that allows searching across multiple clinic providers",
   "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
     "start": "node build/src/server.mjs",
